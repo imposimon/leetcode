@@ -5,9 +5,8 @@ public class Solution {
 		int maxSum = A[0];
 		int maxEndingHere = A[0];
 		for(int i = 1; i < A.length; i++) {
-			maxEndingHere = (maxEndingHere + A[i] > A[i]) ? maxEndingHere + A[i] : A[i];
-			if(maxEndingHere > maxSum)
-				maxSum = maxEndingHere;
+			maxEndingHere = Math.max(maxEndingHere + A[i], A[i]);
+			maxSum = Math.max(maxEndingHere, maxSum);
 		}
 		return maxSum;
 	}
