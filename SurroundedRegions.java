@@ -4,15 +4,29 @@ public class Solution {
 
 		int m = board.length;
 		int n = board[0].length;
+		Queue<Integer> queue = new LinkedList<Integer> ();
 
 		for(int i = 0; i < m; i++) {
-			dfs(board, i, 0);
-			dfs(board, i, n - 1);
+			enqueue(queue, n, i, 0);
+			enqueue(queue, n, i, n - 1);
 		}
 
 		for(int j = 0; j < n; j++) {
-			dfs(board, 0, j);
-			dfs(board, m - 1, j);
+			enqueue(queue, n, 0, j);
+			enqueue(queue, n, m - 1, j);
+		}
+
+		while(!queue.isEmpty()) {
+			int pos = queue.remove();
+			int x = pos / n;
+			int y = pos % n;
+			if(x < 0 || x >= m || y < 0 || y >= n || board[x][y] != 'O')
+				continue;
+			board[x][y] = 'M';
+			enqueue(queue, n, x + 1, y);
+			enqueue(queue, n, x - 1, y);
+			enqueue(queue, n, x, y + 1);
+			enqueue(queue, n, x, y - 1);
 		}
 
 		for(int i = 0; i < m; i++) {
@@ -25,18 +39,7 @@ public class Solution {
 		}
 	}
 
-	private void dfs(char[][] board, int i, int j) {
-		int m = board.length;
-		int n = board[0].length;
-		if(i < 0 || i >= m || j < 0 || j >= n || board[i][j] != 'O')
-			return;
-
-		board[i][j] = 'M';
-		dfs(board, i + 1, j);
-		dfs(board, i - 1, j);
-		dfs(board, i, j + 1);
-		dfs(board, i, j - 1);
+	private void enqueue(Queue<Integer> queue, int n, int x, int y) {
+		queue.add(x * n + y);
 	}
-
-
 }
