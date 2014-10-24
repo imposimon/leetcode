@@ -1,4 +1,5 @@
 public class Solution {
+	/*
 	public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
 		if(node == null) return null;
 		Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode> ();
@@ -18,6 +19,26 @@ public class Solution {
 				}
 				curCloned.neighbors.add(clonedNeighbor);
 			}
+		}
+		return cloned;
+	}
+	*/
+	public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+		if(node == null) return null;
+		return dfs(node, new HashMap<Integer, UndirectedGraphNode> ());
+	}
+
+	public UndirectedGraphNode dfs(UndirectedGraphNode node, Map<Integer, UndirectedGraphNode> map) {
+		UndirectedGraphNode cloned = map.get(node.label);
+		if(cloned == null) {
+			cloned = new UndirectedGraphNode(node.label);
+			map.put(node.label, cloned);
+		}
+		for(UndirectedGraphNode neighbor : node.neighbors) {
+			UndirectedGraphNode clonedNeighbor = map.get(neighbor.label);
+			if(clonedNeighbor == null)
+				clonedNeighbor = dfs(neighbor, map);
+			cloned.neighbors.add(clonedNeighbor);
 		}
 		return cloned;
 	}
